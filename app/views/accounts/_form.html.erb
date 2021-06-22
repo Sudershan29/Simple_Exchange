@@ -1,0 +1,43 @@
+<%= form_with(model: account) do |form| %>
+  <% if account.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(account.errors.count, "error") %> prohibited this account from being saved:</h2>
+
+      <ul>
+        <% account.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<br/>
+<div class="card shadow mb-5 p-1 rounded border-secondary mb-3">  
+      <div class="card-header p-3 bg-transparent">
+        <div class="field form-group">
+          <%= form.text_field :name, class:"form-control fw-bolder", placeholder:"Name" %>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="field form-group">
+          <%= form.text_field :ph_number, class:"form-control", placeholder:"Phone Number" %>
+        </div>
+        <br/>
+        <div class="field form-group">
+          <%= form.number_field :currency, class:"form-control", placeholder:"Eg. 10000" %>
+        </div>
+        <br/>
+        <div class="field form-group">
+          <%= form.number_field :coin, class:"form-control", placeholder:"Eg. 0 BTC" %>
+        </div>
+        <br/>
+        <div class="field form-group">
+          <%= form.number_field :user_id, id: :user_account_user_id, class:"form-control", value:current_user.id, type: :hidden%>
+        </div>
+        <div class="actions text-center">
+          <%= form.submit  class:"btn btn-success" %>
+        </div>
+      </div>
+     </div> 
+<% end %>

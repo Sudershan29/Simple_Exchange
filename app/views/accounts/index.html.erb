@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h1>My Account</h1>
+
+<% @accounts.each do |account| %>
+
+  <div class="jumbotron">
+    <h1 class="display-4"><%= account.name %></h1>
+    <p class="lead"><%= account.ph_number %></p>
+    <hr class="my-4">
+    <p>Rs <%= account.currency %> | <%= account.coin %> BTC</p>
+    <p class="lead">
+      <%= link_to 'Show', account, class:"btn btn-outline-primary" %>
+      <%= link_to 'Edit', edit_account_path(account), class:"btn btn-outline-success"  %>
+    </p>
+  </div>
+  <br/>
+<% end %>
+<br/>
+
+<% if @count<1 %>
+  <%= link_to 'New Account Creation', new_account_path, class:"btn btn-outline-primary" %>
+<% end %>

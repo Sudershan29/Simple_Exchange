@@ -1,0 +1,19 @@
+
+<div class="card shadow mb-5 rounded border-secondary mb-3">
+  <div class="card-header text-center p-3 fw-bolder">
+    <%= @account.name %>
+  </div>
+  <div class="card-body">
+    <p class="card-text fw-light">+91 - <%= @account.ph_number %></p>
+    <p class="card-text fw-light">Rs <%= @account.currency %></p>
+    <p class="card-text fw-light">BTC <%= @account.coin %></p>
+    <div class="text-center">
+    	<%= link_to 'Edit', edit_account_path(@account), class:"btn btn-outline-success" %> 
+  	</div>
+  </div>
+</div>
+
+<br/>
+
+<br/>
+<%= link_to 'Back', accounts_path, class:"btn btn-sm btn-outline-primary" %>
