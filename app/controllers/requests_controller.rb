@@ -5,7 +5,6 @@ class RequestsController < ApplicationController
   
 
   # GET /requests or /requests.json
-  
 
   def index
     @requests = current_user.requests.where(user_id: current_user.id)
