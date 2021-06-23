@@ -1,29 +1,29 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow p-3 mb-5 rounded" style="background-color: #e3f2fd;">
   <div class="container-fluid">
     <div class="navbar-brand fw-bold">
-        <%= link_to 'Exchange',root_path, class:"nav-link fw-light"  %>
+        <%= link_to 'Exchange',root_path, class:"nav-link fw-bolder text-dark"  %>
     </div>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item fw-light">
-           <div class="nav-link fw-light active">Transactions</div>
+           <%= link_to 'Look up Market', home_market_path, class:"nav-link text-danger"  %>
         </li>
         <% if user_signed_in? %>
           <li class="nav-item">
-            <div class="nav-link fw-light active">Edit Account</div>
+              <%= link_to 'Manage Requests',requests_path, class:"nav-link text-success fw-light"  %>
           </li>
           <li class="nav-item">
-            <div class="nav-link fw-light active">Something 2</div>
+            <div class="nav-link fw-light active">Transaction  <span class="text-primary"> History </span></div>
           </li>
         <% end %>
         <li class="nav-item">
-          <%= link_to 'About Creator ',home_about_path, class:"nav-link fw-light active"  %>
+          <%= link_to 'About Creator',home_about_path, class:"nav-link fw-light active"  %>
         </li>
       </ul>
       <% if user_signed_in? %>
 
        <span class="navbar-text  fst-italic">
-          &emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp;
+          &emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp;
           Ready to exchange ?! Shall we?
       </span>
 
@@ -46,7 +46,7 @@
       <% else %>
 
        <span class="navbar-text  fst-italic">
-          &emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;  &emsp; &emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; 
+          &emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;  &emsp; &emsp; &emsp;&emsp; 
           Ready to exchange ?! Shall we?
       </span>
 

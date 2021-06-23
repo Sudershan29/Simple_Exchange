@@ -1,10 +1,11 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: %i[ show edit update destroy ]
 
-  # GET /accounts or /accounts.json
+  # GET /accounts or /accounts.jso
+
   def index
-    @accounts = Account.all
-    @count = Account.all.count
+    @accounts = Account.where(user_id: current_user.id)
+    @count = Account.where(user_id: current_user.id).count
   end
 
   # GET /accounts/1 or /accounts/1.json

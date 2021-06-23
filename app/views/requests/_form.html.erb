@@ -1,0 +1,33 @@
+<%= form_with(model: request) do |form| %>
+  <% if request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
+
+      <ul>
+        <% request.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="card shadow mb-5 rounded border-secondary mb-3">  
+      <div class="card-body">
+        <div class="field form-group">
+          <%= form.number_field :value, class:"form-control", placeholder:"2 BTC"%>
+        </div>
+        <br/>
+        <div class="field form-group">
+          <%= form.number_field :amount, class:"form-control", placeholder:"Rs 100"%>
+        </div>
+        <div class="field form-group">
+          <%= form.number_field :user_id, id: :user_request_user_id, class:"form-control", value:current_user.id, type: :hidden%>
+        </div>
+        <br/><br/>
+        <div class="actions text-center">
+          <%= form.submit  class:"btn btn-success" %>
+        <br/>
+        </div>
+      </div>
+     </div> 
+<% end %>

@@ -1,0 +1,35 @@
+
+<div class="card shadow mb-5 rounded border-secondary mb-3">
+	<div class="card-header p-3">
+          <h5 class="card-text text-center">
+            <span class="fw-bolder">Rs. </span> <%= @request.amount %> for  <%= @request.value %>  <span class="fw-bolder"> BTC </span>
+          </h5>
+          
+        </div>
+    <div class="card-body text-center border-secondary fw-bolder text-muted"> Posted
+          <% t=((Time.now - @request.updated_at) ).to_i%> 
+            <% if (t/(60*60*24)) >1 %>
+              <%= (t/(60*60*24)) %> days ago.
+            <% elsif (t/(60*60*24)) >0 %>
+              <%= (t/(60*60*24)) %> day ago.
+            <% elsif (t/(60*60)) >1 %>
+              <%= (t/(60*60)) %> hours ago.
+            <% elsif (t/(60*60)) >0 %>
+              <%= (t/(60*60)) %> hour ago.
+            <% elsif t/60 > 1 %>
+              <%= (t/60) %> minutes ago.
+            <% elsif t/60 > 0 %>
+              <%= (t/60) %> minute ago.
+            <% else %>  
+              <%= t %> seconds ago.
+           <% end %>
+          <br/>
+          <br/>
+          <div class="d-grid d-md-block text-center">
+              <%= link_to 'Remove Request', @request, method: :delete, data: { confirm: 'Are you sure?'},class:"btn btn-danger btn-sm" %>
+          </div>
+        </div>
+      </div>
+
+<%= link_to 'Edit', edit_request_path(@request), class:"btn btn-danger" %>
+<%= link_to 'Back', requests_path, class:"btn btn-primary" %>
