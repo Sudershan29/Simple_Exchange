@@ -2,22 +2,52 @@
 
 <h1>My Account</h1>
 
+<br/>
+
 <% @accounts.each do |account| %>
 
-  <div class="jumbotron">
-    <h1 class="display-4"><%= account.name %></h1>
-    <p class="lead"><%= account.ph_number %></p>
-    <hr class="my-4">
-    <p>Rs <%= account.currency %> | <%= account.coin %> BTC</p>
-    <p class="lead">
-      <%= link_to 'Show', account, class:"btn btn-outline-primary" %>
-      <%= link_to 'Edit', edit_account_path(account), class:"btn btn-outline-success"  %>
-    </p>
+  <div class="card text-center shadow mb-3 rounded">
+    <div class="card-header text-center p-3 fw-bolder" style="background-color:rgba(11, 12, 16, 1)">
+      <h3 class="text-light"><%= account.name %></h3>
+    </div>
+    <div class="card-body" style="background-color:rgba(102, 252, 241, 0.3);">
+      <p class="card-text"><span class="fw-bolder">Email Id:</span> <%= current_user.email %></p>
+      <p class="card-text"><span class="fw-bolder">Contact No:</span> <%= account.ph_number %></p>
+      <br/>
+      <p class="card-text text-muted" >
+        <span class="fw-bolder">
+           Signed up
+        </span>
+            <% t=((Time.now - account.created_at) ).to_i%> 
+              <% if (t/(60*60*24)) >1 %>
+                <%= (t/(60*60*24)) %> days ago.
+              <% elsif (t/(60*60*24)) >0 %>
+                <%= (t/(60*60*24)) %> day ago.
+              <% elsif (t/(60*60)) >1 %>
+                <%= (t/(60*60)) %> hours ago.
+              <% elsif (t/(60*60)) >0 %>
+                <%= (t/(60*60)) %> hour ago.
+              <% elsif t/60 > 1 %>
+                <%= (t/60) %> minutes ago.
+              <% elsif t/60 > 0 %>
+                <%= (t/60) %> minute ago.
+              <% else %>  
+                <%= t %> seconds ago.
+             <% end %>
+      </p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item " style="background-color:rgba(227, 242, 253, 1);"><span class="fw-bolder">Rs. </span> <%= account.currency %></li>
+      <li class="list-group-item " style="background-color:rgba(227, 242, 253, 1);"><%= account.coin %> <span class="fw-bolder">BTC</span> </li>
+    </ul>
+    <div class="card-body" style="background-color:rgba(11, 12, 16, 1)">
+      <%= link_to 'Edit', edit_account_path(account), class:"btn btn-outline-light btn-block" %> 
+    </div>
   </div>
-  <br/>
 <% end %>
 <br/>
 
 <% if @count<1 %>
   <%= link_to 'New Account Creation', new_account_path, class:"btn btn-outline-primary" %>
 <% end %>
+
