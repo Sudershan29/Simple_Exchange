@@ -1,18 +1,18 @@
-<h1>My Money Requests</h1>
+<h1>My Coin Requests</h1>
 <br/>
 <div class="row">
- <% @requests.each do |request| %>
+ <% @coin_requests.each do |coin_request| %>
     <div class="col-sm-4">
       <div class="card shadow mb-5 rounded border-secondary mb-3">
          <div class="card-header p-3">
           <h5 class="card-text text-center"> <span class="fw-bolder text-muted"> Giving </span>
-             <u ><span class="fw-bolder"> <%= request.value %> </span> BTC</u> 
-             <span class="text-muted text-warning">for  </span>
-             <u>Rs. <span class="fw-bolder">  <%= request.amount %> </span></u>
+             <u>Rs. <span class="fw-bolder">  <%= coin_request.price %> </span></u>
+             <span class="text-muted text-warning">for  </span> 
+             <u ><span class="fw-bolder"> <%= coin_request.coin %> </span> BTC</u> 
           </h5>
         </div>
         <div class="card-body text-center border-secondary text-muted"> Posted
-          <% t=((Time.now - request.updated_at) ).to_i%> 
+          <% t=((Time.now - coin_request.updated_at) ).to_i%> 
             <% if (t/(60*60*24)) >1 %>
               <%= (t/(60*60*24)) %> days ago.
             <% elsif (t/(60*60*24)) >0 %>
@@ -31,8 +31,8 @@
            <br/>
            <br/>
           <div class="d-grid d-md-block text-center">
-              <%= link_to 'Edit', edit_request_path(request), class:"btn btn-success btn-sm" %>
-              <%= link_to 'Remove', request, method: :delete, data: { confirm: 'Are you sure?'},class:"btn btn-danger btn-sm" %>
+              <%= link_to 'Edit', edit_coin_request_path(coin_request), class:"btn btn-success btn-sm" %>
+              <%= link_to 'Remove', coin_request, method: :delete, data: { confirm: 'Are you sure?'},class:"btn btn-danger btn-sm" %>
           </div>
         </div>
        
@@ -41,4 +41,4 @@
   <% end %>
 </div>
 
-<%= link_to 'New Request', new_request_path, class:"btn btn-primary" %>
+<%= link_to 'New Coin Request',  new_coin_request_path , class:"btn btn-primary" %>

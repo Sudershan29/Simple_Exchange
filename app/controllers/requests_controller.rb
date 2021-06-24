@@ -5,6 +5,33 @@ class RequestsController < ApplicationController
   
 
   # GET /requests or /requests.json
+  def accept
+    @request = Request.all.find(params[:id])
+    @sender = Account.find_or_create_by(user_id:current_user.id)
+    @receiver = Account.find_or_create_by(user_id:@request.user_id)
+
+    if @sender.currency >= @request.amount and @receiver.coin >= @request.value 
+      temp = @sender.currency - @request.amount
+      temp2 = @sender.coin + @request.value
+      
+      @sender.update(currency: temp,coin: temp2)
+      
+      temp = @receiver.currency + @request.amount
+      temp2 = @receiver.coin - @request.value
+      
+      @receiver.update(currency: temp,coin: temp2)
+
+      Transaction.create(sender: current_user.id  ,receiver: @request.user_id ,amount: @request.amount ,value: @request.value, user_id: current_user.id)
+      
+      @request.destroy
+
+      redirect_to transactions_path
+
+    else
+      redirect_to home_market_path, notice: "Not enough balance."
+    end
+
+  end
 
   def index
     @requests = current_user.requests.where(user_id: current_user.id)
@@ -16,7 +43,9 @@ class RequestsController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = current_user.requests.build
+    @request = current_user.requests.build    
+    #@find = Request.find_or_create_by(amount:@request.amount ,value:@request.value).where.not(user_id: current_user.id)
+    #@find = Request.where('amount == ? AND value == ? AND user_id!= ?',@request.amount,@request.value, current_user.id )
   end
 
   # GET /requests/1/edit
@@ -35,7 +64,7 @@ class RequestsController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
-    end
+    end    
   end
 
   def right_user
@@ -64,7 +93,6 @@ class RequestsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_request

@@ -6,11 +6,32 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item fw-light">
-           <%= link_to 'Look up Market', home_market_path, class:"nav-link text-danger"  %>
-        </li>
+            <ul class="navbar-nav text-end me-auto mb-2 mb-lg-0">
+               <li class="nav-item dropdown">
+                  <a class="nav-link fw-light active dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Look up <span class="text-danger">Market
+                  </a>
+                  <ul class="dropdown-menu shadow mb-2 rounded"  aria-labelledby="navbarDropdown">
+                    <%= link_to 'Buying Coin?', home_market_path, class:"nav-link fw-light"  %>
+                    <%= link_to 'Selling Coin?', home_about_path, class:"nav-link fw-light"  %>
+                  </ul>
+                </li>
+              </ul>
+          </li>
         <% if user_signed_in? %>
           <li class="nav-item">
-              <%= link_to 'Manage Requests',requests_path, class:"nav-link text-success fw-light"  %>
+            <ul class="navbar-nav text-end me-auto mb-2 mb-lg-0">
+               <li class="nav-item dropdown">
+                  <a class="nav-link fw-light active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Manage <span class="text-success">Requests
+                  </a>
+                  <ul class="dropdown-menu shadow mb-2 rounded"  aria-labelledby="navbarDropdown">
+                    <%= link_to 'Money Request',requests_path, class:"nav-link fw-light"  %>
+                    <%= link_to 'Coin Request', coin_requests_path, class:"nav-link fw-light"  %>
+                  </ul>
+                </li>
+              </ul>
+              
           </li>
           <li class="nav-item">
             <%= link_to 'Transaction History',transactions_path, class:"nav-link text-primary fw-light"  %>

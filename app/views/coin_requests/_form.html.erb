@@ -1,0 +1,36 @@
+<%= form_with(model: coin_request) do |form| %>
+  <% if coin_request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(coin_request.errors.count, "error") %> prohibited this coin_request from being saved:</h2>
+
+      <ul>
+        <% coin_request.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="card shadow mb-5 rounded border-secondary mb-3">  
+      <div class="card-body">
+        Giving
+        <div class="field form-group">
+          <%= form.number_field :price, class:"form-control", placeholder:"Rs 100"%>
+        </div>
+        <br/>
+        for
+        <div class="field form-group">
+          <%= form.number_field :coin, class:"form-control", placeholder:"2 BTC"%>
+        </div>
+        <br/>
+        <div class="field form-group">
+          <%= form.number_field :user_id, id: :user_request_user_id, class:"form-control", value:current_user.id, type: :hidden%>
+        </div>
+        <br/><br/>
+        <div class="actions text-center">
+          <%= form.submit  class:"btn btn-success" %>
+        <br/>
+        </div>
+      </div>
+  </div> 
+<% end %>
+

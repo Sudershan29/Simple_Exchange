@@ -6,4 +6,5 @@ class User < ApplicationRecord
   has_one :account
   has_many :transactions
   has_many :requests
+  has_many :coin_requests
 end
