@@ -1,32 +1,32 @@
-<h1>Currency Market Pricing</h1>
+<h1>Coin Market Pricing</h1>
 
 <div class="text-end">
   <div class="btn-group">
     <button class="btn btn-primary fw-bolder">Sort by</button>
-    <button class="btn btn-outline-primary">Pric<%= link_to "e", :sort => "amount"%></button>
-    <button class="btn btn-outline-primary">Coi<%= link_to "n", :sort => "value"%></button>
+    <button class="btn btn-outline-primary">Pric<%= link_to "e", :sort => "price"%></button>
+    <button class="btn btn-outline-primary">Coi<%= link_to "n", :sort => "coin"%></button>
     <button class="btn btn-outline-primary">Tim<%= link_to "e", :sort => "updated_at"%></button>
   </div>
 </div>
 <br/><br/>
 <div class="row">
- <% @requests.each do |request| %>
+ <% @coin_requests.each do |coin_request| %>
     <div class="col-sm-4">
       <div class="card shadow mb-5 rounded border-secondary mb-3">
          <div class="card-header p-3" style="background-color: #e3f2fd;">
-          <h5 class="card-text text-center"> <span class="fw-bolder text-muted"> Buy </span>
-             <u ><span class="fw-bolder"> <%= request.value %> </span> BTC</u> 
+          <h5 class="card-text text-center"> <span class="fw-bolder text-muted"> Sell </span>
+             <u ><span class="fw-bolder"> <%= coin_request.coin %> </span> BTC</u> 
              <span class="text-muted text-warning">for  </span>
-             <u>Rs. <span class="fw-bolder">  <%= request.amount %> </span></u>
+             <u>Rs. <span class="fw-bolder">  <%= coin_request.price %> </span></u>
           </h5>
           <div class="fw-lighter text-center text-muted fst-italic">
             by
-            <%=User.find_by(id: request.user_id).email %>
+            <%=User.find_by(id: coin_request.user_id).email %>
           </div>
         </div>
         <div class="card-body text-center border-secondary text-muted"> 
           Posted
-          <% t=((Time.now - request.updated_at) ).to_i%> 
+          <% t=((Time.now - coin_request.updated_at) ).to_i%> 
             <% if (t/(60*60*24)) >1 %>
               <%= (t/(60*60*24)) %> days ago.
             <% elsif (t/(60*60*24)) >0 %>
@@ -45,7 +45,7 @@
            <br/>
            <br/>
           <div class="d-grid d-md-block text-center">
-              <%= link_to 'Accept Offer', accept_path(request), method: "put" ,class:"btn btn-success btn-sm" %>
+              <%= link_to 'Accept Offer', coin_accept_path(coin_request), method: "put" ,class:"btn btn-success btn-sm" %>
           </div>
         </div>
       </div>

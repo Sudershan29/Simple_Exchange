@@ -46,6 +46,7 @@ class RequestsController < ApplicationController
     @request = current_user.requests.build    
     #@find = Request.find_or_create_by(amount:@request.amount ,value:@request.value).where.not(user_id: current_user.id)
     #@find = Request.where('amount == ? AND value == ? AND user_id!= ?',@request.amount,@request.value, current_user.id )
+    #accept_path(@find)
   end
 
   # GET /requests/1/edit
