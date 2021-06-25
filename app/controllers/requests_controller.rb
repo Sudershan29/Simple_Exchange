@@ -3,7 +3,37 @@ class RequestsController < ApplicationController
   before_action :authenticate_user!, except: [:show,:index]
   before_action :right_user, only:[:edit,:update,:destroy]
   
+  def accept2
+    @request = Request.all.find(params[:id])
+    @find = CoinRequest.where('price == ? AND coin == ? AND user_id!= ?',@request.amount,@request.value, current_user.id).first
+    @sender = Account.find_or_create_by(user_id:@find.user_id)
+    @receiver = Account.find_or_create_by(user_id:current_user.id)
 
+    if @sender.currency >= @request.amount and @receiver.coin >= @request.value 
+      temp = @sender.currency - @request.amount
+      temp2 = @sender.coin + @request.value
+      
+      @sender.update(currency: temp,coin: temp2)
+      
+      temp = @receiver.currency + @request.amount
+      temp2 = @receiver.coin - @request.value
+      
+      @receiver.update(currency: temp,coin: temp2)
+
+      Transaction.create(sender:@sender.user_id  ,receiver: @receiver.user_id ,amount: @request.amount ,value: @request.value, user_id: current_user.id)
+      
+      @request.destroy
+      @find.destroy
+
+      redirect_to transactions_path
+
+    elsif @sender.currency < @request.amount
+      redirect_to home_market_path, notice: "They do not have enough balance."
+    else
+      redirect_to home_market_path, notice: "You dont have enough coins at the moment."  
+    end
+
+  end
   # GET /requests or /requests.json
   def accept
     @request = Request.all.find(params[:id])
@@ -27,8 +57,10 @@ class RequestsController < ApplicationController
 
       redirect_to transactions_path
 
+    elsif @sender.currency < @request.amount
+      redirect_to home_market_path, notice: "You do not have enough balance."
     else
-      redirect_to home_market_path, notice: "Not enough balance."
+      redirect_to home_market_path, notice: "The seller doesnt have enough coins at the moment."  
     end
 
   end
@@ -44,9 +76,7 @@ class RequestsController < ApplicationController
   # GET /requests/new
   def new
     @request = current_user.requests.build    
-    #@find = Request.find_or_create_by(amount:@request.amount ,value:@request.value).where.not(user_id: current_user.id)
-    #@find = Request.where('amount == ? AND value == ? AND user_id!= ?',@request.amount,@request.value, current_user.id )
-    #accept_path(@find)
+    #@find = Request.find_or_create_by(amount:@request.amount ,value:@request.value).where.not(user_id: current_user.id
   end
 
   # GET /requests/1/edit
@@ -65,7 +95,7 @@ class RequestsController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
-    end    
+    end 
   end
 
   def right_user

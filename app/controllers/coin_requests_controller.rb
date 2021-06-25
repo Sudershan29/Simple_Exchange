@@ -3,30 +3,66 @@ class CoinRequestsController < ApplicationController
   before_action :authenticate_user!, except: [:show,:index]
   before_action :right_user, only:[:edit,:update,:destroy]
   
-  def coin_accept
-    @request = CoinRequest.all.find(params[:id])
-    @sender = Account.find_or_create_by(user_id:current_user.id)
-    @receiver = Account.find_or_create_by(user_id:@request.user_id)
+  #one giving Cash is the sender
 
-    if @sender.currency >= @request.price and @receiver.coin >= @request.coin
-      temp = @sender.currency + @request.price
-      temp2 = @sender.coin - @request.coin
+  def coin_accept2
+     @coin_request = CoinRequest.all.find(params[:id])
+     @find = Request.where('amount == ? AND value == ? AND user_id!= ?',@coin_request.price,@coin_request.coin, current_user.id).first
+     @sender = Account.find_or_create_by(user_id:current_user.id)
+     @receiver = Account.find_or_create_by(user_id:@find.user_id)
+
+     if @sender.currency >= @coin_request.price and @receiver.coin >= @coin_request.coin
+      temp = @sender.currency - @coin_request.price
+      temp2 = @sender.coin + @coin_request.coin
 
       @sender.update(currency: temp,coin: temp2)
       
-      temp = @receiver.currency - @request.price
-      temp2 = @receiver.coin + @request.coin
+      temp = @receiver.currency + @coin_request.price
+      temp2 = @receiver.coin - @coin_request.coin
       
       @receiver.update(currency: temp,coin: temp2)
 
-      Transaction.create(sender:@request.user_id   ,receiver:current_user.id ,amount: @request.price ,value: @request.coin, user_id: current_user.id)
+      Transaction.create(sender:@sender.user_id  ,receiver:@receiver.user_id ,amount: @coin_request.price ,value: @coin_request.coin, user_id: current_user.id)
+      
+      @coin_request.destroy
+      @find.destroy
+
+      redirect_to transactions_path
+
+    elsif @sender.currency < @coin_request.price
+      redirect_to home_coin_market_path, notice: "You dont have enough balance"
+    else
+      redirect_to home_coin_market_path, notice: "The receiver doesnt have enough coins to transact"
+    end
+
+  end
+
+  def coin_accept
+    @request = CoinRequest.all.find(params[:id])
+    @sender = Account.find_or_create_by(user_id:@request.user_id)
+    @receiver = Account.find_or_create_by(user_id:current_user.id)
+
+    if @sender.currency >= @request.price and @receiver.coin >= @request.coin
+      temp = @sender.currency - @request.price
+      temp2 = @sender.coin + @request.coin
+
+      @sender.update(currency: temp,coin: temp2)
+      
+      temp = @receiver.currency + @request.price
+      temp2 = @receiver.coin - @request.coin
+      
+      @receiver.update(currency: temp,coin: temp2)
+
+      Transaction.create(sender:@sender.user_id   ,receiver:current_user.id ,amount: @request.price ,value: @request.coin, user_id: current_user.id)
       
       @request.destroy
 
       redirect_to transactions_path
 
+    elsif @sender.currency < @request.price
+      redirect_to home_coin_market_path, notice: "They do not have enough balance."
     else
-      redirect_to home_coin_market_path, notice: "Not enough balance."
+      redirect_to home_coin_market_path, notice: "You dont have enough coins"  
     end
 
   end
@@ -41,7 +77,7 @@ class CoinRequestsController < ApplicationController
 
   # GET /coin_requests/new
   def new
-    @coin_request = CoinRequest.new
+    @coin_request = CoinRequest.new 
   end
 
   # GET /coin_requests/1/edit
@@ -49,8 +85,8 @@ class CoinRequestsController < ApplicationController
   end
 
   def right_user
-     @coin_request = current_user.coin_requests.find_by(id: params[:id])
-    redirect_to coin_requests_path, notice: "Not authorized." if @request.nil?
+    @coin_request = current_user.coin_requests.find_by(id: params[:id])
+    redirect_to coin_requests_path, notice: "Not authorized." if @coin_request.nil?
   end
 
   # POST /coin_requests or /coin_requests.json

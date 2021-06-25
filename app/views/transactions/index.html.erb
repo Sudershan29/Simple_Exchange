@@ -7,23 +7,23 @@
 <table class="table text-center table-bordered table-hover">
   <thead>
     <tr>
-      <th scope="col">From</th>
-      <th scope="col">To</th>
-      <th scope="col">Currency spent</th>
-      <th scope="col">Coin got</th>
-      <th scope="col">Time</th>
+      <th scope="col"><h5>From</h5></th>
+      <th scope="col"><h5>To</h5></th>
+      <th scope="col"><h5>Currency</h5></th>
+      <th scope="col"><h5>Coin</h5></th>
+      <th scope="col"><h5>Time</h5></th>
       <!-- <th scope="col">User</th> -->
     </tr>
   </thead>
 
   <tbody>
     <% @transactions.each do |transaction| %>
-      <% if transaction.sender==current_user.id or transaction.receiver==current_user.id %>
-        <tr>
+      <% if transaction.sender==current_user.id %>
+        <tr style="background-color:rgba(255, 0, 0, 0.25);">
           <td><%= Account.find_or_create_by(user_id: transaction.sender).name %></td>
           <td><%= Account.find_or_create_by(user_id: transaction.receiver).name %></td>
-          <td>Rs <%= transaction.amount %></td>
-          <td><%= transaction.value %> BTC</td>
+          <td> - Rs <%= transaction.amount %></td>
+          <td> + <%= transaction.value %> BTC</td>
           <td class="text-muted">
             <% t=((Time.now - transaction.created_at) ).to_i%> 
               <% if (t/(60*60*24)) >1 %>
@@ -45,6 +45,32 @@
           <!-- <td><%= transaction.user_id %></td>
           <td><%= link_to 'Show', transaction %></td> -->
         </tr>
+      <% elsif transaction.receiver==current_user.id%>
+
+        <tr style="background-color:rgba(73, 255, 30, 0.25);">
+          <td><%= Account.find_or_create_by(user_id: transaction.sender).name %></td>
+          <td><%= Account.find_or_create_by(user_id: transaction.receiver).name %></td>
+          <td>+ Rs <%= transaction.amount %></td>
+          <td>- <%= transaction.value %> BTC</td>
+          <td class="text-muted">
+            <% t=((Time.now - transaction.created_at) ).to_i%> 
+              <% if (t/(60*60*24)) >1 %>
+                <%= (t/(60*60*24)) %> days ago.
+              <% elsif (t/(60*60*24)) >0 %>
+                <%= (t/(60*60*24)) %> day ago.
+              <% elsif (t/(60*60)) >1 %>
+                <%= (t/(60*60)) %> hours ago.
+              <% elsif (t/(60*60)) >0 %>
+                <%= (t/(60*60)) %> hour ago.
+              <% elsif t/60 > 1 %>
+                <%= (t/60) %> minutes ago.
+              <% elsif t/60 > 0 %>
+                <%= (t/60) %> minute ago.
+              <% else %>  
+                <%= t %> seconds ago.
+             <% end %>
+          </td>
+
       <% end %>
     <% end %>
   </tbody>

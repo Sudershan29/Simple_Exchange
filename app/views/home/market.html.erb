@@ -11,7 +11,7 @@
 <br/><br/>
 <div class="row">
  <% @requests.each do |request| %>
-    <div class="col-sm-4">
+    <div class="col-sm-4">  
       <div class="card shadow mb-5 rounded border-secondary mb-3">
          <div class="card-header p-3" style="background-color: #e3f2fd;">
           <h5 class="card-text text-center"> <span class="fw-bolder text-muted"> Buy </span>
@@ -44,9 +44,15 @@
            <% end %>
            <br/>
            <br/>
+           <% if user_signed_in? %>
+            <div class="d-grid d-md-block text-center">
+                <%= link_to 'Accept Offer', accept_path(request), method: "put" ,class:"btn btn-success btn-sm" %>
+            </div>
+          <% else %>
           <div class="d-grid d-md-block text-center">
-              <%= link_to 'Accept Offer', accept_path(request), method: "put" ,class:"btn btn-success btn-sm" %>
-          </div>
+                <%= button_to 'Accept Offer', accept_path(request), method: "put" ,class:"btn btn-success btn-sm", disabled: true %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>

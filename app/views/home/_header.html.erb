@@ -23,11 +23,11 @@
             <ul class="navbar-nav text-end me-auto mb-2 mb-lg-0">
                <li class="nav-item dropdown">
                   <a class="nav-link fw-light active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Manage <span class="text-success">Requests
+                  Manage my <span class="text-success"> Requests
                   </a>
                   <ul class="dropdown-menu shadow mb-2 rounded"  aria-labelledby="navbarDropdown">
-                    <%= link_to 'Money Request',requests_path, class:"nav-link fw-light"  %>
-                    <%= link_to 'Coin Request', coin_requests_path, class:"nav-link fw-light"  %>
+                    <%= link_to 'Selling Coins',requests_path, class:"nav-link fw-light"  %>
+                    <%= link_to 'Buying Coins', coin_requests_path, class:"nav-link fw-light"  %>
                   </ul>
                 </li>
               </ul>
@@ -44,7 +44,7 @@
       <% if user_signed_in? %>
 
        <span class="navbar-text  fst-italic">
-          &emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp;
+          &emsp; &emsp; &emsp;&emsp; &emsp; &emsp;&emsp; &emsp;
           Ready to exchange ?! Shall we?
       </span>
 

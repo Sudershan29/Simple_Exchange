@@ -34,7 +34,7 @@
             <% elsif (t/(60*60)) >1 %>
               <%= (t/(60*60)) %> hours ago.
             <% elsif (t/(60*60)) >0 %>
-              <%= (t/(60*60)) %> hour ago.
+              <%= (t/(60*60)) %> hour ago.  
             <% elsif t/60 > 1 %>
               <%= (t/60) %> minutes ago.
             <% elsif t/60 > 0 %>
@@ -44,9 +44,15 @@
            <% end %>
            <br/>
            <br/>
-          <div class="d-grid d-md-block text-center">
-              <%= link_to 'Accept Offer', coin_accept_path(coin_request), method: "put" ,class:"btn btn-success btn-sm" %>
-          </div>
+           <% if user_signed_in? %>
+            <div class="d-grid d-md-block text-center">
+                <%= link_to 'Accept Offer', coin_accept_path(coin_request), method: "put" ,class:"btn btn-success btn-sm" %>
+            </div>
+           <% else %>
+           <div class="d-grid d-md-block text-center">
+                <%= button_to 'Accept Offer', coin_accept_path(coin_request), method: "put" ,class:"btn btn-success btn-sm ", disabled: true  %>
+            </div>
+           <% end %>
         </div>
       </div>
     </div>
