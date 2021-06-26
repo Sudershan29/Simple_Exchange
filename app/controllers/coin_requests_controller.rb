@@ -73,6 +73,7 @@ class CoinRequestsController < ApplicationController
 
   # GET /coin_requests/1 or /coin_requests/1.json
   def show
+    @found_match = Request.where('amount == ? AND value == ? AND user_id!= ?',@coin_request.price,@coin_request.coin, current_user.id).first 
   end
 
   # GET /coin_requests/new

@@ -71,6 +71,7 @@ class RequestsController < ApplicationController
 
   # GET /requests/1 or /requests/1.json
   def show
+    @found_a_match = CoinRequest.where('price == ? AND coin == ? AND user_id!= ?',@request.amount,@request.value, current_user.id).first 
   end
 
   # GET /requests/new

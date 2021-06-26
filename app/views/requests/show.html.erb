@@ -25,8 +25,7 @@
           <br/>
           <br/>
           <div class="d-grid d-md-block text-center">
-              <% @yes = CoinRequest.where('price == ? AND coin == ? AND user_id!= ?',@request.amount,@request.value, current_user.id).first %>
-              <% unless @yes.nil? %>
+              <% unless @found_a_match.nil? %>
                   <%= button_to 'Found Match! Sell?', accept2_path(@request), method:"put", class:"btn btn-success" %>
                   <br/>
               <% end %>
